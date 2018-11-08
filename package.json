@@ -1,0 +1,18 @@
+{
+  "name": "face-detection-opencv4nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Johnson Jan Su",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "ngrok": "^3.1.0",
+    "opencv4nodejs": "^4.10.0",
+    "pug": "^2.0.3",
+    "socket.io": "^2.1.1"
+  }
+}
