@@ -21,13 +21,13 @@ app.set("view engine", "pug");
 let ngrokURL = `http://localhost:${app.get("port")}`;
 
 // serve index
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.render("index", { title: "face detection", url: ngrokURL }); //render index.html and interpolate the url constiable
 });
 
 // HTTP server
 const server = http.createServer(app);
-server.listen(app.get("port"), "0.0.0.0", function() {
+server.listen(app.get("port"), "0.0.0.0", function () {
   console.log("HTTP server listening on port " + app.get("port"));
 });
 
@@ -36,10 +36,10 @@ const io = require("socket.io")(server);
 io.on("connection", require(`${__basedir}/utils/socket`));
 
 // Get ngrok url
-// (async function() {
-//   // IIFE: Immediately Invoked Function Expression
-//   ngrokURL = await ngrok.connect(app.get("port"));
-//   console.log("ngrokURL", ngrokURL);
-// })();
+(async function () {
+  // IIFE: Immediately Invoked Function Expression
+  ngrokURL = await ngrok.connect(app.get("port"));
+  console.log("ngrokURL", ngrokURL);
+})();
 
 module.exports.app = app;
