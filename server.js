@@ -35,16 +35,11 @@ app.get("/", function(req, res) {
 });
 
 //ffmpeg pushed stream in here to make a pipe
-app.all("/streamIn/:feed", function(req, res) {
-  //req.params.feed = Feed Number (Pipe Number)
-
-  console.log("feed", req.params.feed);
-
+app.all("/streamIn", function(req, res) {
   res.connection.setTimeout(0); //keeps the connection open indefinitely
 
   req.on("data", function(buffer) {
-    io.to("STREAM_" + req.params.feed).emit("h264", {
-      feed: req.params.feed,
+    io.to("STREAM").emit("h264", {
       buffer: buffer
     });
   });
@@ -60,7 +55,7 @@ io.on("connection", function(cn) {
     switch (data.function) {
       case "getStream":
         console.log(data);
-        cn.join("STREAM_" + data.feed);
+        cn.join("STREAM");
         break;
     }
   });

@@ -27,7 +27,7 @@ html
       //on socket.io connection success
       socket.on('connect', function () {
       //pretend this is the command you use to initiate getting H.264 (MPEG) data
-      socket.emit('f', { function: 'getStream', feed: '2' })
+      socket.emit('f', { function: 'getStream'})
       })
       // initiate a player that can be piped to.
       var player = new JSMpeg.Player('pipe', {
