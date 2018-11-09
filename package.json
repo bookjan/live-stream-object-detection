@@ -13,6 +13,8 @@
     "ngrok": "^3.1.0",
     "opencv4nodejs": "^4.10.0",
     "pug": "^2.0.3",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "multistream": "^2.1.1",
+    "stream-filter": "^2.1.0"
   }
 }

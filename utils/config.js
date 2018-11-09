@@ -17,3 +17,11 @@ exports.process = {
   // set process count
   maxCount: 1
 };
+
+/**
+ * Here to set server configs
+ */
+exports.server = {
+  // set server port
+  port: 8080
+};

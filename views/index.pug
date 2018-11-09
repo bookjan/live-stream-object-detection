@@ -1,43 +1,42 @@
 doctype html
 html
   head
-    meta(http-equiv="Content-Security-Policy", content="default-src data: gap://* file://* https://ssl.gstatic.com *; img-src 'self' * data:; style-src 'self' 'unsafe-inline' *; script-src 'self' 'unsafe-eval' 'unsafe-inline' *; connect-src 'self' * ws://* wss://*;")
-    meta(name="viewport", content='width=device-width, initial-scale=1, user-scalable=1')
-    title #{title}
+    meta(name='viewport', content='width=640, initial-scale=1')
+    title Streaming
     style(type='text/css').
-      .container {
-      padding-top: 50px;
-      }
-      .center {
+      body {
+      background: black;
       text-align: center;
+      margin-top: 10%;
       }
-      #canvas-video {
-      width: 320px;
-      height: 240px;
-      border: 1px solid #ccc;
+      #videoCanvas {
+      background: red;
+      width: 640px;
+      height: 480px;
       }
   body
-    .container.center
-      canvas#canvas-video(width='320', height='240')
-    
-    block scripts
-      script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js')
-      script(type='text/javascript').
-        // MODIFY THIS TO THE APPROPRIATE URL IF IT IS NOT BEING RUN LOCALLY
-        var socket = io.connect('!{url}');
-        var canvas = document.getElementById('canvas-video');
-        var context = canvas.getContext('2d');
-        var img = new Image();
-
-        // show loading notice
-        context.fillStyle = '#333';
-        context.fillText('Loading...', canvas.width/2-30, canvas.height/3);
-
-        // socket listener
-        socket.on('frame', function (data) {
-        img.onload = function () {
-        context.drawImage(this, 0, 0, canvas.width, canvas.height);
-        };
-
-        img.src = "data:image/jpeg;base64," + data.base64;
-        });
+    script(src='https://cdn.shinobi.video/js/socket.io.js')
+    // Special JSMPEG Start
+    // You need this version. Check for updates here https://github.com/ShinobiCCTV/jsmpeg-pipe
+    script(src='https://cdn.shinobi.video/js/jsmpeg.pipe.js')
+    // Special JSMPEG End
+    canvas#canvas(width='640', height='480')
+    script.
+      //start socket.io client connection
+      var socket = io();
+      //on socket.io connection success
+      socket.on('connect', function () {
+      //pretend this is the command you use to initiate getting H.264 (MPEG) data
+      socket.emit('f', { function: 'getStream', feed: '2' })
+      })
+      // initiate a player that can be piped to.
+      var player = new JSMpeg.Player('pipe', {
+      canvas: document.getElementById('canvas')
+      });
+      //on data from "h264" handle
+      socket.on('h264', function (data) {
+      // `data.buffer` is the raw video data from FFMPEG
+      // pretend you are getting data as follows
+      // var data = {buffer:ArrayBuffer}
+      player.write(data.buffer)
+      });

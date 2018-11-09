@@ -7,6 +7,9 @@ const classifier = new cv.CascadeClassifier(cv.HAAR_FRONTALFACE_ALT2);
 // set webcam interval
 const camInterval = Math.ceil(1000 / opencv.camFps);
 
+// set stdout encoding to 'binary'
+process.stdout.setDefaultEncoding("binary");
+
 function detectObjects(img) {
   // restrict minSize and scaleFactor for faster processing
   const options = {
@@ -34,10 +37,8 @@ const runWebcamObjectDetection = (src, detectObjects) =>
       objectRects.forEach(objectRect => drawBlueRect(frameResized, objectRect));
     }
 
-    const base64String = cv.imencode(".jpg", frameResized).toString("base64");
-
-    // write the jpg base64 data to stdout
-    process.send(base64String);
+    // write the jpg binary data to stdout
+    process.stdout.write(cv.imencode(".jpg", frameResized).toString("binary"));
   });
 
 runWebcamObjectDetection(opencv.camPort, detectObjects);
