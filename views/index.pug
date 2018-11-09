@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    meta(name='viewport', content='width=640, initial-scale=1')
+    meta(name='viewport', content='width=960, initial-scale=1')
     title Streaming
     style(type='text/css').
       body {
@@ -11,16 +11,16 @@ html
       }
       #videoCanvas {
       background: red;
-      width: 640px;
-      height: 480px;
+      width: 960px;
+      height: 540px;
       }
   body
-    script(src='https://cdn.shinobi.video/js/socket.io.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js')
     // Special JSMPEG Start
     // You need this version. Check for updates here https://github.com/ShinobiCCTV/jsmpeg-pipe
     script(src='https://cdn.shinobi.video/js/jsmpeg.pipe.js')
     // Special JSMPEG End
-    canvas#canvas(width='640', height='480')
+    canvas#canvas(width='960', height='540')
     script.
       //start socket.io client connection
       var socket = io();
