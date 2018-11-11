@@ -22,6 +22,12 @@ exports.process = {
  * Here to set server configs
  */
 exports.server = {
-  // set server port
-  port: 8080
+  // set http port
+  httpPort: 8080,
+  // set websocket port
+  wsPort: 8081,
+  // set stream port
+  streamPort: 8082,
+  // set stream secret
+  streamSecret: "N23y08VnzfDH4Wmf2tXoDyxbwf2rGQJC"
 };

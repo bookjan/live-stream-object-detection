@@ -18,7 +18,7 @@ const streamArgs = [
   "-c:v",
   "mpeg1video",
   "-an",
-  `http://localhost:${server.port}/streamIn`
+  `http://localhost:${server.streamPort}/${server.streamSecret}`
 ];
 
 const objectDetectStreams = [];

@@ -4,7 +4,7 @@ Real-time face detection using opencv4nodejs, Socket.io and ngrok.
 
 ## Requirements
 
-- [Node.js](http://nodejs.org/)
+- [Node.js](http://nodejs.org/) node version >= 8.3.0
 - [OpenCV 3.4.0](http://opencv.org/)
   - May also work with older versions of OpenCV, but most recently tested with OpenCV 3.4.0
 - A webcam, e.g. laptop-integrated webcam, USB webcam

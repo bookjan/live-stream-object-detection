@@ -1,42 +1,18 @@
 doctype html
 html
   head
-    meta(name='viewport', content='width=960, initial-scale=1')
-    title Streaming
+    title #{title}
     style(type='text/css').
+      html,
       body {
-      background: black;
+      background-color: #111;
       text-align: center;
-      margin-top: 10%;
-      }
-      #videoCanvas {
-      background: red;
-      width: 960px;
-      height: 540px;
       }
   body
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js')
-    // Special JSMPEG Start
-    // You need this version. Check for updates here https://github.com/ShinobiCCTV/jsmpeg-pipe
-    script(src='https://cdn.shinobi.video/js/jsmpeg.pipe.js')
-    // Special JSMPEG End
-    canvas#canvas(width='960', height='540')
-    script.
-      //start socket.io client connection
-      var socket = io();
-      //on socket.io connection success
-      socket.on('connect', function () {
-      //pretend this is the command you use to initiate getting H.264 (MPEG) data
-      socket.emit('f', { function: 'getStream'})
-      })
-      // initiate a player that can be piped to.
-      var player = new JSMpeg.Player('pipe', {
-      canvas: document.getElementById('canvas')
-      });
-      //on data from "h264" handle
-      socket.on('h264', function (data) {
-      // `data.buffer` is the raw video data from FFMPEG
-      // pretend you are getting data as follows
-      // var data = {buffer:ArrayBuffer}
-      player.write(data.buffer)
-      });
+    canvas#video-canvas
+
+    script(type='text/javascript', src='https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg/jsmpeg.min.js')
+    script(type='text/javascript').
+      var canvas = document.getElementById("video-canvas");
+      var url = '!{url}';
+      var player = new JSMpeg.Player(url, { canvas: canvas });
