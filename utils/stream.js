@@ -17,10 +17,10 @@ const streamArgs = [
   "mpegts",
   "-c:v",
   "mpeg1video",
-  "-q",
-  "10",
-  // "-b:v",
-  // "800k",
+  // "-q",
+  // "10",
+  "-b:v",
+  "600k",
   "-an",
   `http://localhost:${server.streamPort}/${server.streamSecret}`
 ];
@@ -39,7 +39,7 @@ for (count = 1; count <= process.maxCount; count++) {
 const stream = () => {
   MultiStream(objectDetectStreams)
     .pipe(
-      filter(function(data) {
+      filter(function (data) {
         // filter opencv output, example: '[ INFO:0] Initialize OpenCL runtime...'
         const regex = /\[\sINFO\:\d\]\s/gm;
         const isImgData = !regex.test(data);
@@ -48,15 +48,15 @@ const stream = () => {
     )
     .pipe(ffmpegStream.stdin);
 
-  ffmpegStream.stdout.on("data", function(data) {
+  ffmpegStream.stdout.on("data", function (data) {
     console.log("stdout: " + data.toString());
   });
 
-  ffmpegStream.stderr.on("data", function(data) {
+  ffmpegStream.stderr.on("data", function (data) {
     console.log("stderr: " + data.toString());
   });
 
-  ffmpegStream.on("exit", function(code) {
+  ffmpegStream.on("exit", function (code) {
     console.log("child process exited with code " + code.toString());
   });
 };

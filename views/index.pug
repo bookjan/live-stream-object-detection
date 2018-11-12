@@ -14,5 +14,5 @@ html
     script(type='text/javascript', src='https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg/jsmpeg.min.js')
     script(type='text/javascript').
       var canvas = document.getElementById("video-canvas");
-      var url = '!{url}';
+      var url = 'wss://' + document.location.hostname;
       var player = new JSMpeg.Player(url, { canvas: canvas });
