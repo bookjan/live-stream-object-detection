@@ -17,6 +17,10 @@ const streamArgs = [
   "mpegts",
   "-c:v",
   "mpeg1video",
+  "-q",
+  "10",
+  // "-b:v",
+  // "800k",
   "-an",
   `http://localhost:${server.streamPort}/${server.streamSecret}`
 ];
