@@ -18,18 +18,17 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
-// Random public URL created by ngrok, default is localhost
-let ngrokHttpUrl = `http://localhost:${server.httpPort}`;
-let ngrokWsUrl = `ws://localhost:${server.httpPort}`;
+// Default Websocket URL
+let wsUrl = `ws://localhost:${server.httpPort}`;
 
 // HTTP server
 const httpServer = http.createServer(app);
-httpServer.listen(app.get("port"), "0.0.0.0", function () {
+httpServer.listen(app.get("port"), "0.0.0.0", function() {
   console.log("HTTP server listening on port " + app.get("port"));
 });
 
-app.get("/", function (req, res) {
-  res.render("index", { title: "Object Detection on Live Stream" });
+app.get("/", function(req, res) {
+  res.render("index", { title: "Object Detection on Live Stream", url: wsUrl });
 });
 
 // Websocket server
@@ -37,7 +36,7 @@ const socketServer = new WebSocket.Server({ server: httpServer });
 
 socketServer.connectionCount = 0;
 
-socketServer.on("connection", function (socket, upgradeReq) {
+socketServer.on("connection", function(socket, upgradeReq) {
   socketServer.connectionCount++;
 
   console.log(
@@ -47,7 +46,7 @@ socketServer.on("connection", function (socket, upgradeReq) {
     (${socketServer.connectionCount} total)`
   );
 
-  socket.on("close", function (code, message) {
+  socket.on("close", function(code, message) {
     socketServer.connectionCount--;
     console.log(
       "Disconnected WebSocket (" + socketServer.connectionCount + " total)"
@@ -55,7 +54,7 @@ socketServer.on("connection", function (socket, upgradeReq) {
   });
 });
 
-socketServer.broadcast = function (data) {
+socketServer.broadcast = function(data) {
   socketServer.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
       client.send(data);
@@ -65,7 +64,7 @@ socketServer.broadcast = function (data) {
 
 // HTTP Server to accept incomming local MPEG-TS Stream from ffmpeg
 const streamServer = http
-  .createServer(function (request, response) {
+  .createServer(function(request, response) {
     const params = request.url.substr(1).split("/");
 
     if (params[0] !== server.streamSecret) {
@@ -83,14 +82,14 @@ const streamServer = http
       ${request.socket.remoteAddress}:${request.socket.remotePort}`
     );
 
-    request.on("data", function (data) {
+    request.on("data", function(data) {
       socketServer.broadcast(data);
       if (request.socket.recording) {
         request.socket.recording.write(data);
       }
     });
 
-    request.on("end", function () {
+    request.on("end", function() {
       console.log("close");
       if (request.socket.recording) {
         request.socket.recording.close();
@@ -103,13 +102,13 @@ const streamServer = http
 require("./utils/stream")();
 
 // Get ngrok url for local server
-(async function () {
+(async function() {
   // IIFE: Immediately Invoked Function Expression
-  ngrokHttpUrl = await ngrok.connect(server.httpPort);
-  ngrokWsUrl = ngrokHttpUrl.toString().replace(/^https?:\/\//, "wss://");
+  const httpUrl = await ngrok.connect(server.httpPort);
+  wsUrl = httpUrl.toString().replace(/^https?:\/\//, "wss://");
 
-  console.log("ngrokHttpUrl", ngrokHttpUrl);
-  console.log("ngrokWsUrl", ngrokWsUrl);
+  console.log("Ngrok HTTP URL", httpUrl);
+  console.log("Ngrok Websocket URL", wsUrl);
 })().catch(error => console.log(error.message));
 
 module.exports.app = app;
