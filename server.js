@@ -102,13 +102,13 @@ const streamServer = http
 require("./utils/stream")();
 
 // Get ngrok url for local server
-(async function() {
-  // IIFE: Immediately Invoked Function Expression
-  const httpUrl = await ngrok.connect(server.httpPort);
-  wsUrl = httpUrl.toString().replace(/^https?:\/\//, "wss://");
+// (async function() {
+//   // IIFE: Immediately Invoked Function Expression
+//   const httpUrl = await ngrok.connect(server.httpPort);
+//   wsUrl = httpUrl.toString().replace(/^https?:\/\//, "wss://");
 
-  console.log("Ngrok HTTP URL", httpUrl);
-  console.log("Ngrok Websocket URL", wsUrl);
-})().catch(error => console.log(error.message));
+//   console.log("Ngrok HTTP URL", httpUrl);
+//   console.log("Ngrok Websocket URL", wsUrl);
+// })().catch(error => console.log(error.message));
 
 module.exports.app = app;

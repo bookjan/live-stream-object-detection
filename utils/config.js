@@ -7,7 +7,7 @@ exports.opencv = {
   // set webcam FPS
   camFps: 25,
   // set frame size
-  frameSize: 720
+  frameSize: 640
 };
 
 /**

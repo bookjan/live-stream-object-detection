@@ -9,6 +9,7 @@
   "author": "Johnson Jan Su",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.6.1",
     "express": "^4.16.4",
     "multistream": "^2.1.1",
     "ngrok": "^3.1.0",
