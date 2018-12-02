@@ -33,7 +33,7 @@ detectionStream.stdout.setDefaultEncoding("binary");
 const stream = () => {
   detectionStream.stdout
     .pipe(
-      filter(function(data) {
+      filter(data => {
         // filter opencv output, example: '[ INFO:0] Initialize OpenCL runtime...'
         const regex = /\[\sINFO\:\d\]\s/gm;
         const isImgData = !regex.test(data);
@@ -42,15 +42,15 @@ const stream = () => {
     )
     .pipe(ffmpegStream.stdin);
 
-  ffmpegStream.stdout.on("data", function(data) {
+  ffmpegStream.stdout.on("data", data => {
     console.log("stdout: " + data.toString());
   });
 
-  ffmpegStream.stderr.on("data", function(data) {
+  ffmpegStream.stderr.on("data", data => {
     console.log("stderr: " + data.toString());
   });
 
-  ffmpegStream.on("exit", function(code) {
+  ffmpegStream.on("exit", code => {
     console.log("child process exited with code " + code.toString());
   });
 };
