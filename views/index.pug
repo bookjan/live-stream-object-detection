@@ -1,43 +1,18 @@
 doctype html
 html
   head
-    meta(http-equiv="Content-Security-Policy", content="default-src data: gap://* file://* https://ssl.gstatic.com *; img-src 'self' * data:; style-src 'self' 'unsafe-inline' *; script-src 'self' 'unsafe-eval' 'unsafe-inline' *; connect-src 'self' * ws://* wss://*;")
-    meta(name="viewport", content='width=device-width, initial-scale=1, user-scalable=1')
     title #{title}
     style(type='text/css').
-      .container {
-      padding-top: 50px;
-      }
-      .center {
+      html,
+      body {
+      background-color: #111;
       text-align: center;
       }
-      #canvas-video {
-      width: 320px;
-      height: 240px;
-      border: 1px solid #ccc;
-      }
   body
-    .container.center
-      canvas#canvas-video(width='320', height='240')
-    
-    block scripts
-      script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js')
-      script(type='text/javascript').
-        // MODIFY THIS TO THE APPROPRIATE URL IF IT IS NOT BEING RUN LOCALLY
-        var socket = io.connect('!{url}');
-        var canvas = document.getElementById('canvas-video');
-        var context = canvas.getContext('2d');
-        var img = new Image();
+    canvas#video-canvas
 
-        // show loading notice
-        context.fillStyle = '#333';
-        context.fillText('Loading...', canvas.width/2-30, canvas.height/3);
-
-        // socket listener
-        socket.on('frame', function (data) {
-        img.onload = function () {
-        context.drawImage(this, 0, 0, canvas.width, canvas.height);
-        };
-
-        img.src = "data:image/jpeg;base64," + data.base64;
-        });
+    script(type='text/javascript', src='https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg/jsmpeg.min.js')
+    script(type='text/javascript').
+      var canvas = document.getElementById("video-canvas");
+      var url = "!{url}";
+      var player = new JSMpeg.Player(url, { canvas: canvas });
