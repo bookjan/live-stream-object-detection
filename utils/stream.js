@@ -6,12 +6,8 @@ const { server } = require("./config");
 const streamArgs = [
   "-f",
   "image2pipe",
-  "-framerate",
-  "25",
   "-i",
   "-",
-  "-r",
-  "25",
   "-f",
   "mpegts",
   "-c:v",
@@ -19,11 +15,11 @@ const streamArgs = [
   // "-q",
   // "10",
   "-b:v",
-  "600k",
+  "1000k",
   "-maxrate:v",
-  "600k",
+  "1000k",
   "-bufsize",
-  "300k",
+  "500k",
   "-an",
   `http://localhost:${server.streamPort}/${server.streamSecret}`
 ];
