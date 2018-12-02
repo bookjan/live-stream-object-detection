@@ -2,7 +2,7 @@ const cv = require("opencv4nodejs");
 
 exports.cv = cv;
 
-exports.grabFrames = (videoSource, delay, camInterval, onFrame) => {
+exports.grabFrames = (videoSource, camInterval, onFrame) => {
   const cap = new cv.VideoCapture(videoSource);
   setInterval(() => {
     let frame = cap.read();

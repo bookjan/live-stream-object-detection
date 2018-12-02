@@ -27,7 +27,7 @@ function detectObjects(img) {
 }
 
 const runWebcamObjectDetection = (src, detectObjects) =>
-  grabFrames(src, 1, camInterval, frame => {
+  grabFrames(src, camInterval, frame => {
     const frameResized = frame.resizeToMax(opencv.frameSize);
 
     // detect objects
