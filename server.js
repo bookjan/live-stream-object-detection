@@ -104,8 +104,9 @@ require("./utils/stream")();
   const httpUrl = await ngrok.connect(server.httpPort);
   wsUrl = httpUrl.toString().replace(/^https?:\/\//, "wss://");
 
-  console.log("Ngrok HTTP URL", httpUrl);
-  console.log("Ngrok Websocket URL", wsUrl);
+  console.log("Ngrok HTTP URL:", httpUrl);
+  console.log("Ngrok Websocket URL:", wsUrl);
+  console.log();
 })().catch(error => console.log(error.message));
 
 module.exports.app = app;

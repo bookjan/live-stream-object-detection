@@ -1,5 +1,5 @@
 {
-  "name": "face-detection-opencv4nodejs",
+  "name": "live-stream-object-detection",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
