@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 
-const { cv, grabFrames, drawBlueRect } = require("./opencv-helpers");
+const { cv, grabFrames } = require("./opencv-helpers");
 const { opencv, classNames } = require("./config");
 
 if (!cv.xmodules.dnn) {
@@ -31,7 +31,7 @@ const net = cv.readNetFromTensorflow(modelPath, configPath);
 // set webcam interval
 const camInterval = 1000 / opencv.camFps;
 
-function objectDetect(img) {
+const objectDetect = (img) => {
   // object detection model works with 300 x 300 images
   const size = new cv.Size(300, 300);
   const vec3 = new cv.Vec(0, 0, 0);
@@ -57,22 +57,25 @@ function objectDetect(img) {
       const boxY = imgHeight * outputBlob.at([0, 0, y, 4]);
       const boxWidht = imgWidth * outputBlob.at([0, 0, y, 5]);
       const boxHeight = imgHeight * outputBlob.at([0, 0, y, 6]);
-      const imgRect = new cv.Rect(boxX, boxY, boxWidht, boxHeight);
 
-      // draw the blue rect for the object
-      drawBlueRect(img, imgRect);
+      const pt1 = new cv.Point(boxX, boxY);
+      const pt2 = new cv.Point(boxWidht, boxHeight);
+      const rectColor = new cv.Vec(23, 230, 210);
+      const rectThickness = 2;
+      const rectLineType = cv.LINE_8;
+
+      // draw the rect for the object
+      img.drawRectangle(pt1, pt2, rectColor, rectThickness, rectLineType);
+
+      const text = `${className} ${confidence.toFixed(5)}`;
+      const org = new cv.Point(boxX, boxY + 15);
+      const fontFace = cv.FONT_HERSHEY_SIMPLEX;
+      const fontScale = 0.5;
+      const textColor = new cv.Vec(123, 123, 255);
+      const thickness = 2;
 
       // put text on the object
-      img.putText(
-        className,
-        new cv.Point(boxX, boxY + 0.1 * imgHeight),
-        cv.FONT_ITALIC,
-        2,
-        {
-          color: new cv.Vec(255, 0, 0),
-          thickness: 2
-        }
-      );
+      img.putText(text, org, fontFace, fontScale, textColor, thickness);
     }
   }
 
