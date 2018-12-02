@@ -6,9 +6,6 @@ const ngrok = require("ngrok");
 
 const { server } = require("./utils/config");
 
-// Store project base path
-global.__basedir = __dirname;
-
 // App parameters
 const app = express();
 app.set("port", server.httpPort);
