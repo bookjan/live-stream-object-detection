@@ -9,7 +9,7 @@
   "author": "Johnson Jan Su",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "ngrok": "^3.1.0",
     "opencv4nodejs": "^4.11.0",
     "pug": "^2.0.3",
